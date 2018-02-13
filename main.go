@@ -1,7 +1,9 @@
-package main
+package somePackage
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func main() {
+func SomeExportedFunction() {
 	fmt.Println("meow!")
 }
