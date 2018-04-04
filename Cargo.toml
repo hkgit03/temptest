@@ -1,0 +1,7 @@
+[package]
+name = "temptest"
+version = "0.1.0"
+authors = ["hkgit03 <22918836+hkgit03@users.noreply.github.com>"]
+
+[dependencies]
+lodepng = "2.0.0"
