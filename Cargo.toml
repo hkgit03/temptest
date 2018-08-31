@@ -1,6 +1,6 @@
 [package]
 name = "temptest"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["laerling <laerling@posteo.de>"]
 
 [dependencies]
