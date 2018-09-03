@@ -1,7 +1,0 @@
-[package]
-name = "temptest"
-version = "0.1.3"
-authors = ["laerling <laerling@posteo.de>"]
-
-[dependencies]
-lodepng = "2.0.0"
