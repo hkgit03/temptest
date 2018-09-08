@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 mod cacher;
 mod tests;
 
@@ -30,20 +28,39 @@ fn generate_workout(intensity: u32, random_number: u32) {
 }
 
 fn main() {
-    //let simulated_user_specified_value = 10;
-    //let simulated_random_number = 7;
 
-    //generate_workout(simulated_user_specified_value, simulated_random_number);
+    let simulated_user_specified_value = 10;
+    let simulated_random_number = 7;
+    generate_workout(simulated_user_specified_value, simulated_random_number);
+
 
     let fun = | x: u32 | {
         println!("calculating slowly...");
         thread::sleep(Duration::from_secs(2));
         x
     };
-    let mut c = Cacher::new(fun);
 
-    println!("{}", c.value(2));
-    println!("{}", c.value(4));
-    println!("{}", c.value(2));
-    println!("{}", c.value(5));
+    let mut c1 = Cacher::new(fun);
+
+    println!("{}", c1.value(2));
+    println!("{}", c1.value(4));
+    println!("{}", c1.value(2));
+    println!("{}", c1.value(5));
+
+
+    let mut c2 = Cacher::new( | x: i32 | {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        match x {
+            -31 => "minus thirtyone",
+            40  => "fourty",
+            -68 => "minus sixtyeight",
+            _   => "I DON'T KNOW",
+        }
+    });
+
+    println!("{}", c2.value(40));
+    println!("{}", c2.value(-31));
+    println!("{}", c2.value(40));
+    println!("{}", c2.value(-68));
 }
