@@ -30,8 +30,20 @@ fn generate_workout(intensity: u32, random_number: u32) {
 }
 
 fn main() {
-    let simulated_user_specified_value = 10;
-    let simulated_random_number = 7;
+    //let simulated_user_specified_value = 10;
+    //let simulated_random_number = 7;
 
-    generate_workout(simulated_user_specified_value, simulated_random_number);
+    //generate_workout(simulated_user_specified_value, simulated_random_number);
+
+    let fun = | x: u32 | {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        x
+    };
+    let mut c = Cacher::new(fun);
+
+    println!("{}", c.value(2));
+    println!("{}", c.value(4));
+    println!("{}", c.value(2));
+    println!("{}", c.value(5));
 }

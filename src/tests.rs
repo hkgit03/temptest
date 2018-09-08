@@ -1,5 +1,3 @@
-use cacher::Cacher;
-
 // failing tests:
 
 #[test]
