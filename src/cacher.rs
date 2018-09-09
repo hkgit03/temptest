@@ -23,10 +23,7 @@ impl<F, K, V> Cacher<F, K, V> where F: Fn(K) -> V, K: Eq + Hash + Copy
         // calculate and insert value if not already present
         match self.values.entry(arg) {
             Occupied(_) => (),
-            Vacant(ve) => {
-                ve.insert((self.calculation)(arg));
-                ()
-            },
+            Vacant(ve) => { ve.insert((self.calculation)(arg)); },
         };
 
         // return now present value
