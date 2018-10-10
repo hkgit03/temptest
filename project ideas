@@ -1,1 +1,2 @@
 - Program that shows information about the process the currently selected (i3) window belongs to. Can be called e. g. from i3 with a specific shortcut.
+- Emacs: soft-scroll: Make C-v, M-v, C-l, etc. scroll line by line, accelerating and decelerating
