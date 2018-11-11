@@ -17,11 +17,17 @@ const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 char str[LEN] = "KJFSA SDEFNWJANFL ASDFJQW FSP";
 
 
+unsigned int
+alphabet_index(char letter) {
+  return strchr(alphabet, letter) - alphabet;
+}
+
+
 char
 mutate(char letter) {
 
   // find index in alphabet
-  int alphabet_i = strchr(alphabet, letter) - alphabet;
+  int alphabet_i = alphabet_index(letter);
 
   // increment or decrement
   if(random() % 2) {
@@ -31,12 +37,10 @@ mutate(char letter) {
   }
 
   // handle overflow/underflow
-  const int max_index = strlen(alphabet) - 1;
-  if(alphabet_i > max_index) {
-    alphabet_i -= (max_index + 1);
-  }
+  size_t alphabet_length = strlen(alphabet);
+  alphabet_i %= alphabet_length;
   if(alphabet_i < 0) {
-    alphabet_i += (max_index + 1);
+    alphabet_i += alphabet_length;
   }
 
   return alphabet[alphabet_i];
@@ -76,8 +80,9 @@ string_distance(const char* s1, const char* s2){
   unsigned int distance=0;
   for(unsigned int i=0; s1[i] != '\0' && s2[i] != '\0'; i++) {
 
-    // TODO: Use alphabet
-    distance += abs(s1[i] - s2[i]);
+    int i1 = alphabet_index(s1[i]);
+    int i2 = alphabet_index(s2[i]);
+    distance += abs( i1-i2 % strlen(alphabet));
   }
 
   return distance;
