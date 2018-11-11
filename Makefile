@@ -1,4 +1,10 @@
-.PHONY: hs haskell stop clean
+.PHONY: run hs haskell stop clean
+
+evolution: evolution.c
+	gcc -o $@ $<
+
+run: evolution
+	./$<
 
 hs: haskell
 haskell:
