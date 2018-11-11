@@ -1,6 +1,5 @@
 /* TODO:
  * - Use alphabet for all operations (like distance calculation)
- * - Use stack pointers instead of heap pointers where possible
  * - Make number of individuals per round variable
  * - Make initial str random
  */
@@ -14,8 +13,34 @@
 #define INDIVIDUALS 10
 
 const char goal[LEN] = "ME THINKS IT IS LIKE A WEASEL";
-const char alphabet[LEN] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 char str[LEN] = "KJFSA SDEFNWJANFL ASDFJQW FSP";
+
+
+char
+mutate(char letter) {
+
+  // find index in alphabet
+  int alphabet_i = strchr(alphabet, letter) - alphabet;
+
+  // increment or decrement
+  if(random() % 2) {
+    alphabet_i++;
+  }else{
+    alphabet_i--;
+  }
+
+  // handle overflow/underflow
+  const int max_index = strlen(alphabet) - 1;
+  if(alphabet_i > max_index) {
+    alphabet_i -= (max_index + 1);
+  }
+  if(alphabet_i < 0) {
+    alphabet_i += (max_index + 1);
+  }
+
+  return alphabet[alphabet_i];
+}
 
 
 char**
@@ -35,11 +60,27 @@ make_individiuals(const char* parent, unsigned int amount) {
     strncpy(individuals[i], str, LEN);
     individuals[i][LEN] = '\0';
 
-    // TODO mutate
-    individuals[i][0] = "abcdefghijklmnopqrstuvwxyz_0123456789"[i]; // temp
+    // mutate
+    unsigned int mutation_i =
+      random() % (LEN - 1); // LEN includes the terminating null-byte
+    individuals[i][mutation_i] = mutate(individuals[i][mutation_i]);
   }
   
   return individuals;
+}
+
+
+unsigned int
+string_distance(const char* s1, const char* s2){
+
+  unsigned int distance=0;
+  for(unsigned int i=0; s1[i] != '\0' && s2[i] != '\0'; i++) {
+
+    // TODO: Use alphabet
+    distance += abs(s1[i] - s2[i]);
+  }
+
+  return distance;
 }
 
 
@@ -47,31 +88,32 @@ unsigned int*
 get_errors(const char* ideal, const char** individuals,
 	   unsigned int population_size) {
   
-  unsigned int* error_rates
-    = malloc(sizeof(unsigned int) * population_size);
-  
-  for(unsigned int i=0; i<population_size; i++) {
-    error_rates[i] = 0;
+  unsigned int* error_rates =
+    malloc(sizeof(unsigned int) * population_size);
 
-    // TODO
+  for(unsigned int i=0; i<population_size; i++) {
+    unsigned int distance = string_distance(individuals[i], ideal);
+    error_rates[i] = distance * distance;
   }
 
   return error_rates;
 }
 
 
-unsigned int
-string_distance(const char* s1, const char* s2){
-  // TODO
-  return 0; // temp
-}
-
-
 // zero-indexed
 unsigned int
-best(const unsigned int* error_rates, unsigned int amount) {
-  // TODO
-  return 0; // temp
+best_i(const unsigned int* error_rates, unsigned int amount) {
+
+  unsigned int min_i=0, min=error_rates[min_i];
+  for(unsigned int i=1; i<amount; i++) {
+
+    if(error_rates[i] < min) {
+      min_i = i;
+      min = error_rates[i];
+    }
+  }
+
+  return min_i;
 }
 
 
@@ -86,19 +128,15 @@ main() {
       (const char**)make_individiuals(str, INDIVIDUALS);
 
     // determine error_rates
-    // TODO can we do that on the stack and use strcpy instead of =?
     const unsigned int* error_rates =
       get_errors(goal, individuals, INDIVIDUALS);
     
     // selection
-    unsigned int index_of_best = best(error_rates, INDIVIDUALS);
+    unsigned int index_of_best = best_i(error_rates, INDIVIDUALS);
     strncpy(str, individuals[index_of_best], LEN);
 
     // show winner of this round
-    printf("%s\n", str);
+    printf("%d: \"%s\"\n", generation, str);
     generation++;
-
-    // TODO
-    strncpy(str, goal, LEN); // temp: End loop prematurely
   }
 }
