@@ -9,7 +9,7 @@ function make_individual {
     str_len=${#str}
 
     # zero-indexed (0-28)
-    i=$((RANDOM * 29 / 32767))
+    i=$((RANDOM % 29))
 
     # calculate index
     new_char_i=$(($(printf '%d' "'${str:$i:1}")-65))
@@ -17,7 +17,7 @@ function make_individual {
 
     # increment or decrement
     diff=1
-    if [ $((RANDOM * 2 / 32767)) -eq 0 ]; then
+    if [ $((RANDOM % 2)) -eq 0 ]; then
 	diff=-1
     fi
     new_char_i=$((new_char_i+diff))
