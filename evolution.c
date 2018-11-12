@@ -1,7 +1,7 @@
 /* TODO:
- * - Use alphabet for all operations (like distance calculation)
  * - Make number of individuals per round variable
  * - Make initial str random
+ * - Make length of string variable
  */
 
 #include <stdio.h>
@@ -13,8 +13,8 @@
 #define INDIVIDUALS 10
 
 const char goal[LEN] = "ME THINKS IT IS LIKE A WEASEL";
+char str[LEN]        = "KJFSA SDEFNWJANFL ASDFJQW FSP";
 const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-char str[LEN] = "KJFSA SDEFNWJANFL ASDFJQW FSP";
 
 
 unsigned int
