@@ -1,1 +1,6 @@
 This is about stacked diffs.
+
+As far as I can tell from[1] they are all about making early PRs for WIP stuff and then splitting them up into smaller PRs once review is due.
+
+
+[1] https://graysonkoonce.com/stacked-pull-requests-keeping-github-diffs-small/
