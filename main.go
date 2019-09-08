@@ -1,9 +1,15 @@
-package somePackage
+package main
 
 import (
 	"fmt"
+	"path/filepath"
 )
 
-func SomeExportedFunction() {
-	fmt.Println("meow!")
+func main() {
+	path, err := filepath.EvalSymlinks("/home/laerling/Musik")
+	if err != nil {
+		fmt.Println("nope")
+		return
+	}
+	fmt.Println(path)
 }

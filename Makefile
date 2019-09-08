@@ -5,11 +5,13 @@ PHONY+=run
 run: evolution
 	./$<
 
+
 PHONY+=hs
 PHONY+=haskell
 hs: haskell
 haskell:
 	ghc temptest.hs
+
 
 it:
 	@touch halt
@@ -20,12 +22,15 @@ stop: halt
 	@echo "ver";
 	@rm halt
 
+
+remove_cmd=rm -rf
 PHONY+=clean
 clean:
 	# don't remove *~ because those are backups
-	rm -rf temptest \
-		*.hi *.o \ #haskell
-		Cargo.lock target #rust
+	$(remove_cmd) temptest;
+	$(remove_cmd) *.hi *.o; #haskell
+	$(remove_cmd) Cargo.lock target; #rust
+
 
 phony:
 	@echo $(PHONY)

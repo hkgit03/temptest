@@ -11,3 +11,4 @@ Cargo.lock
 # haskell
 *.hi
 *.o
+*.out
