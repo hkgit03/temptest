@@ -2,6 +2,11 @@
 [
 
  1 main [->+>+<<]>[-<+>] +>-[[-]<->]< [-
+  set return to exit <[-]>
+  call printfac +++++>
+ ]<
+
+ 5 printfac [->+>+<<]>[-<+>] +>-----[[-]<->]< [-
   {?} _0_
   >+++++ number to factorize (TODO: User input)
   Set as argument for printing and function call [->>>>+<<<<<+>]
@@ -18,14 +23,14 @@
               " is "  {?} {arg} 0 115 0 _32_
 	      [-]<<[-]<<
   {?} _{arg}_
-  set return address to main1 <[-]++++>
-  {main1} _{arg}_
+  set return address to printfac1 <[-]++++>
+  {printfac1} _{arg}_
   call fac >++>
-  {main1} {arg} {fac} _0_
+  {printfac1} {arg} {fac} _0_
  ]<
 
- 4 main1 [->+>+<<]>[-<+>] +>----[[-]<->]< [-
-  {fac result} {?} _0_
+ 4 printfac1 [->+>+<<]>[-<+>] +>----[[-]<->]< [-
+  {return address} {fac result} {?} _0_
   print result <[-]>++++++++++<<[->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]>>[-]>>>++++++++++<[->-[>+>>]>[+[-<+>]>+>>]<<<<<]>[-]>>[>++++++[-<++++++++>]<.<<+>+>[-]]<[<[->-<]++++++[->++++++++<]>.[-]]<<++++++[-<++++++++>]<.[-]<<[-]
   {return address} 0 _0_
   ".\n" +++++[-<+++++++++>]<+.--[---->+<]>-.[-]<
