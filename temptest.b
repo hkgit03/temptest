@@ -7,9 +7,10 @@
  3: PRINTNUM (currently unused)
  4: PRINTFAC -> FAC, return to PRINTFAC1
  5: PRINTFAC1 (returns)
+ 6: PRINTFAC2 (returns)
 
  TODO:
- - Make PRINTFAC call PRINTNUM for the result and then print the period
+ - Fix: Fac of 0 is 1
  - Use user input as argument to FAC
 ]
 
@@ -42,20 +43,29 @@
   {?} _{arg}_
   set return address to PRINTFAC1 <[-]+++++>
   {PRINTFAC1} _{arg}_
-  call fac >++>
-  {PRINTFAC1} {arg} {fac} _0_
+  call FAC >++>
+  {PRINTFAC1} {arg} {FAC} _0_
  ]<
 
  5 PRINTFAC1 [->+>+<<]>[-<+>] +>-----[[-]<->]< [-
   Print a number and its faculty (part 2)
-  {return address} {FAC result} {?} _0_
-  print result <[-]>++++++++++<<[->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]>>[-]>>>++++++++++<[->-[>+>>]>[+[-<+>]>+>>]<<<<<]>[-]>>[>++++++[-<++++++++>]<.<<+>+>[-]]<[<[->-<]++++++[->++++++++<]>.[-]]<<++++++[-<++++++++>]<.[-]<<[-]
-  {return address} 0 _0_
-  ".\n" +++++[-<+++++++++>]<+.--[---->+<]>-.[-]<
+  {return address} {arg} ? _0_
+  set arg as argument to PRINTNUM <[-]<[->+<]
+  {return address} _0_ {arg}
+  set return address to PRINTFAC2 ++++++
+  {return address} _{PRINTFAC2}_ {arg}
+  call PRINTNUM >>+++>
+  {return address} {PRINTFAC2} {arg} {PRINTNUM} _0_
+ ]<
+
+ 6 PRINTFAC2 [->+>+<<]>[-<+>] +>------[[-]<->]< [-
+  Print a number and its faculty (part 3)
+  {return address} ?
+  ".\n" <[-]+++++[->+++++++++<]>+.--[----<+>]<-.[-]
   {return address} _0_
  ]<
 
- 2 fac [->+>+<<]>[-<+>] +>--[[-]<->]< [-
+ 2 FAC [->+>+<<]>[-<+>] +>--[[-]<->]< [-
   calculate the faculty of ARG
   {arg} {?} _0_
   +<<[
@@ -77,8 +87,9 @@
 
  3 PRINTNUM [->+>+<<]>[-<+>] +>---[[-]<->]< [-
   print ARG as a decimal number
-  print arg <[-]>++++++++++<<[->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]>>[-]>>>++++++++++<[->-[>+>>]>[+[-<+>]>+>>]<<<<<]>[-]>>[>++++++[-<++++++++>]<.<<+>+>[-]]<[<[->-<]++++++[->++++++++<]>.[-]]<<++++++[-<++++++++>]<.[-]<<[-<+>]<[-]
-  call EXIT [-]>
+  {return address} {arg} ? _0_
+  print arg <[-]>++++++++++<<[->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]>>[-]>>>++++++++++<[->-[>+>>]>[+[-<+>]>+>>]<<<<<]>[-]>>[>++++++[-<++++++++>]<.<<+>+>[-]]<[<[->-<]++++++[->++++++++<]>.[-]]<<++++++[-<++++++++>]<.[-]<<[-]<
+  {return address} _0_
  ]<
 
 ]
