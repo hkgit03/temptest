@@ -3,11 +3,11 @@
 
  procedures:
  1: MAIN -> ?, return to 0
- 2: FAC (returns)
- 3: PRINTNUM (returns)
- 4: PRINTFAC -> FAC, return to PRINTFAC1
- 5: PRINTFAC1 -> PRINTNUM, return to PRINTFAC2
- 6: PRINTFAC2 (returns)
+ 2: PRINTFAC -> FAC, return to PRINTFAC1
+ 3: PRINTFAC1 -> PRINTNUM, return to PRINTFAC2
+ 4: PRINTFAC2 (returns)
+ 5: FAC (returns)
+ 6: PRINTNUM (returns)
 
  TODO:
  - Use user input as argument to FAC
@@ -23,7 +23,7 @@
   call PRINTFAC ++++>
  ]<
 
- 4 PRINTFAC [->+>+<<]>[-<+>] +>----[[-]<->]< [-
+ 2 PRINTFAC [->+>+<<]>[-<+>] +>--[[-]<->]< [-
   Print a number and its faculty
   {?} _0_
   >+++++ arg for FAC (number to factorize)
@@ -47,7 +47,7 @@
   {PRINTFAC1} {arg} {FAC} _0_
  ]<
 
- 5 PRINTFAC1 [->+>+<<]>[-<+>] +>-----[[-]<->]< [-
+ 3 PRINTFAC1 [->+>+<<]>[-<+>] +>---[[-]<->]< [-
   Print a number and its faculty (part 2)
   {return address} {arg} ? _0_
   set arg as argument to PRINTNUM <[-]<[->+<]
@@ -58,14 +58,14 @@
   {return address} {PRINTFAC2} {arg} {PRINTNUM} _0_
  ]<
 
- 6 PRINTFAC2 [->+>+<<]>[-<+>] +>------[[-]<->]< [-
+ 4 PRINTFAC2 [->+>+<<]>[-<+>] +>----[[-]<->]< [-
   Print a number and its faculty (part 3)
   {return address} ?
   ".\n" <[-]+++++[->+++++++++<]>+.--[----<+>]<-.[-]
   {return address} _0_
  ]<
 
- 2 FAC [->+>+<<]>[-<+>] +>--[[-]<->]< [-
+ 5 FAC [->+>+<<]>[-<+>] +>-----[[-]<->]< [-
   calculate the faculty of ARG
   {arg} {?} _0_
   >+<<<[[->>+<<]>>>-<<<]>>[-<<+>>] set flag: 'arg was 0'
@@ -88,7 +88,7 @@
   {result} {ret addr} _0_
  ]<
 
- 3 PRINTNUM [->+>+<<]>[-<+>] +>---[[-]<->]< [-
+ 6 PRINTNUM [->+>+<<]>[-<+>] +>------[[-]<->]< [-
   print ARG as a decimal number
   {return address} {arg} ? _0_
   print arg <[-]>++++++++++<<[->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]>>[-]>>>++++++++++<[->-[>+>>]>[+[-<+>]>+>>]<<<<<]>[-]>>[>++++++[-<++++++++>]<.<<+>+>[-]]<[<[->-<]++++++[->++++++++<]>.[-]]<<++++++[-<++++++++>]<.[-]<<[-]<
