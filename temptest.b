@@ -4,14 +4,14 @@
  procedures:
  1: MAIN -> ?, return to 0
  2: FAC (returns)
- 3: PRINTNUM (currently unused)
+ 3: PRINTNUM (returns)
  4: PRINTFAC -> FAC, return to PRINTFAC1
- 5: PRINTFAC1 (returns)
+ 5: PRINTFAC1 -> PRINTNUM, return to PRINTFAC2
  6: PRINTFAC2 (returns)
 
  TODO:
- - Fix: Fac of 0 is 1
  - Use user input as argument to FAC
+ - Try out arbitrary precision arithmetic
 ]
 
 
@@ -26,7 +26,7 @@
  4 PRINTFAC [->+>+<<]>[-<+>] +>----[[-]<->]< [-
   Print a number and its faculty
   {?} _0_
-  >+++++ number to factorize
+  >+++++ arg for FAC (number to factorize)
   Set as argument for printing and function call [->>>>+<<<<<+>]
   {?} {arg} _0_ 0 0 0 {arg}
   print stuff +++[->++++[->+++++++>+++<<]<]>>.[----<+++++>]<-.---.>>----.<<
@@ -68,6 +68,8 @@
  2 FAC [->+>+<<]>[-<+>] +>--[[-]<->]< [-
   calculate the faculty of ARG
   {arg} {?} _0_
+  >+<<<[[->>+<<]>>>-<<<]>>[-<<+>>] set flag: 'arg was 0'
+  {arg} {?} _0_ {flag}
   +<<[
    - we can already decrement arg at this point
    _{arg dec}_ {?} x
@@ -78,7 +80,8 @@
    >>[-<[-<+<+>>]<[->+<]>>]<[-]<<<<
    _{arg dec}_ {?} y
   ]>>
-  0 {?} _{result}_
+  0 {?} _{result}_ {flag?}
+  >[[-]<[-]>]< if arg was 0 the result must be 0 as well
   set return address <[-]<<[->+<]
   _0_ {ret addr} 0 {result}
   set result as argument >>>[-<<<+>>>]<
