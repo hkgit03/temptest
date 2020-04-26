@@ -8,6 +8,7 @@
  4: PRINTFAC2 (returns)
  5: FAC (returns)
  6: PRINTNUM (returns)
+ 7: GETNUM (returns)
 
  TODO:
  - Use user input as argument to FAC
@@ -93,6 +94,14 @@
   {return address} {arg} ? _0_
   print arg <[-]>++++++++++<<[->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]>>[-]>>>++++++++++<[->-[>+>>]>[+[-<+>]>+>>]<<<<<]>[-]>>[>++++++[-<++++++++>]<.<<+>+>[-]]<[<[->-<]++++++[->++++++++<]>.[-]]<<++++++[-<++++++++>]<.[-]<<[-]<
   {return address} _0_
+ ]<
+
+ 7 GETNUM [->+>+<<]>[-<+>] +>-------[[-]<->]< [-
+  {return address} ? _0_
+  align return address for inserting argument later <[-]<[->+<]>>
+  0 {return address} _0_
+  
+  {number} {return address} _0_
  ]<
 
 ]
