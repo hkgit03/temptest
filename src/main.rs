@@ -11,6 +11,7 @@ fn main() {
     window.set_key_polling(true);
     window.make_current();
 
+    // main loop
     while !window.should_close() {
         glfw.poll_events();
         for (_, event) in glfw::flush_messages(&events) {
