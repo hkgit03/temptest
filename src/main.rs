@@ -1,124 +1,29 @@
-use std::env;
-use std::fs;
-use std::vec::Vec;
+extern crate glfw;
+
+use glfw::{Action, Context, Key};
 
 fn main() {
-    let filename = env::args().nth(1).expect("Too few arguments");
-    let p = fs::read(filename).expect("Can't read file");
+    let mut glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
 
-    // init
-    let plen = p.len();
-    let mut ip = 0;
-    let mut ip_stack: Vec<usize> = Vec::with_capacity(25);
-    let mut t: Vec<u8> = vec![0; 10];
-    let mut tp = 4;
-    let amount_of_new_cells = 10;
-    let mut ic = 0;
+    let (mut window, events) = glfw.create_window(300, 300, "Hello this is window", glfw::WindowMode::Windowed)
+        .expect("Failed to create GLFW window.");
 
-    // execute
-    while ip < plen {
-        let _old_ip = ip;
-        let cmd = p[ip];
-        ic += 1;
-        match cmd as char {
+    window.set_key_polling(true);
+    window.make_current();
 
-            '<' => {
-                if tp == 0 {
-                    // extend tape to the left
-                    let mut t2 = Vec::with_capacity(t.capacity() + amount_of_new_cells);
-                    t2.append(&mut vec![0; amount_of_new_cells]);
-                    t2.append(&mut t);
-                    t = t2;
-
-                    // adjust tape pointer
-                    tp += amount_of_new_cells;
-                }
-                tp -= 1;
-            },
-
-            '>' => {
-                if tp == t.len()-1 {
-                    // extend tape to the right
-                    let mut t2 = Vec::with_capacity(t.capacity() + amount_of_new_cells);
-                    t2.append(&mut t);
-                    t2.append(&mut vec![0; amount_of_new_cells]);
-                    t = t2;
-                }
-                tp += 1;
-            },
-
-            '+' => {
-                if t[tp] == 255 {
-                    t[tp] = 0;
-                } else {
-                    t[tp] += 1;
-                }
-            },
-
-            '-' => {
-                if t[tp] == 0 {
-                    t[tp] = 255;
-                } else {
-                    t[tp] -= 1;
-                }
-            },
-
-            '[' => {
-                if t[tp] != 0 {
-                    ip_stack.push(ip);
-                } else {
-                    // scan to corresponding closing bracket
-                    let mut loops = 1;
-                    while loops > 0 {
-                        ip += 1;
-                        if p[ip] as char == '[' { loops += 1; }
-                        if p[ip] as char == ']' { loops -= 1; }
-                    }
-                }
-            },
-
-            ']' => {
-                if t[tp] != 0 {
-                    //println!("");
-                    //println!("ip={} tp={} cmd='{}'", _old_ip, tp, cmd as char);
-                    //print!("ip_stack:");
-                    //for x in &ip_stack {
-                    //    print!(" {}", x);
-                    //}
-                    //println!("");
-                    //print!("tape:");
-                    //for x in &t {
-                    //    print!(" {}", x);
-                    //}
-                    //println!("");
-                    ip = ip_stack[ip_stack.len()-1]
-                } else {
-                    ip_stack.pop();
-                }
-            },
-
-            '.' => print!("{}", t[tp] as char),
-
-            ',' => println!("{} UNIMPLEMENTED", cmd),
-
-            _ => (),
+    while !window.should_close() {
+        glfw.poll_events();
+        for (_, event) in glfw::flush_messages(&events) {
+            handle_window_event(&mut window, event);
         }
-
-        //println!("");
-        //println!("ip={} tp={} cmd='{}'", _old_ip, tp, cmd as char);
-        //print!("ip_stack:");
-        //for x in &ip_stack {
-        //    print!(" {}", x);
-        //}
-        //println!("");
-        //print!("tape:");
-        //for x in &t {
-        //    print!(" {}", x);
-        //}
-        //println!("");
-
-        ip += 1;
     }
+}
 
-    println!("Executed {} instructions", ic);
+fn handle_window_event(window: &mut glfw::Window, event: glfw::WindowEvent) {
+    match event {
+        glfw::WindowEvent::Key(Key::Escape, _, Action::Press, _) => {
+            window.set_should_close(true)
+        }
+        _ => {}
+    }
 }
