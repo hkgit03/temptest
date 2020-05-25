@@ -26,8 +26,8 @@ fi
 # version control
 if [ -d "$listdir/.git" ]; then
     git -C "$listdir" add -A
-    git -C "$listdir" commit -m "$(date)"
-fi
+    git -C "$listdir" commit --allow-empty-message -m ''
+fi > /dev/null
 
 # deadline
 list="$listdir"/deadline
