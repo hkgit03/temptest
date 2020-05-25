@@ -17,9 +17,16 @@ function later_date {
 }
 
 
+# directory with list files
 listdir="$1"
 if [ -z "$listdir" ]; then
     listdir="$HOME/todo-lists"
+fi
+
+# version control
+if [ -d "$listdir/.git" ]; then
+    git -C "$listdir" add -A
+    git -C "$listdir" commit -m "$(date)"
 fi
 
 # deadline
