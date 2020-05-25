@@ -51,11 +51,11 @@ list=~/todo-lists/someday
 touch "$list"
 echo
 echo "Some day:"
-head -3 "$list"|sed 's/^/- /'
+shuf -n3 "$list"|sed 's/^/- /'
 
 # optional
 list=~/todo-lists/optional
 touch "$list"
 echo
 echo "Optional:"
-head -3 "$list"|sed 's/^/- /'
+shuf -n3 "$list"|sed 's/^/- /'
