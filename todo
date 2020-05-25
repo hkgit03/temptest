@@ -17,10 +17,8 @@ function later_date {
 }
 
 
-scriptdir=$(dirname "$0")
-
 # deadline
-list="$scriptdir/todo-lists/deadline"
+list=~/todo-lists/deadline
 touch "$list"
 today=$(date -I)
 cat "$list"|sort -g|while read line; do
@@ -32,7 +30,7 @@ cat "$list"|sort -g|while read line; do
 done | head -3
 
 # within a time window
-list="$scriptdir/todo-lists/timewindow"
+list=~/todo-lists/"$list"
 touch "$list"
 echo
 (
@@ -43,14 +41,14 @@ echo
 ) | head -3
 
 # some day
-list="$scriptdir/todo-lists/someday"
+list=~/todo-lists/someday
 touch "$list"
 echo
 echo "Some day:"
 head -3 "$list"|sed 's/^/- /'
 
 # optional
-list="$scriptdir/todo-lists/optional"
+list=~/todo-lists/optional
 touch "$list"
 echo
 echo "Optional:"
