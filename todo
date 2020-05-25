@@ -30,7 +30,7 @@ cat "$list"|sort -g|while read line; do
 done | head -3
 
 # within a time window
-list=~/todo-lists/"$list"
+list=~/todo-lists/timewindow
 touch "$list"
 echo
 (
@@ -52,4 +52,4 @@ list=~/todo-lists/optional
 touch "$list"
 echo
 echo "Optional:"
-head -3 optional|sed 's/^/- /'
+head -3 "$list"|sed 's/^/- /'
