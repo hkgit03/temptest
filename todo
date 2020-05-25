@@ -23,9 +23,15 @@ touch "$list"
 today=$(date -I)
 cat "$list"|sort -g|while read line; do
     date=$(echo -n "$line"|cut -d' ' -f1)
-    later_date "$today" "$date"
-    if [ "$later" == "$date" ]; then
-        echo "$line"
+    if [ "$date" = "$today" ]; then
+        echo "DUE: $line"
+    else
+        later_date "$today" "$date"
+        if [ "$later" = "$today" ]; then
+            echo "OVERDUE: $line"
+        else
+            echo "$line"
+        fi
     fi
 done | head -3
 
