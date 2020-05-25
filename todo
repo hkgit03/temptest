@@ -17,45 +17,54 @@ function later_date {
 }
 
 
+listdir="$1"
+if [ -z "$listdir" ]; then
+    listdir="$HOME/todo-lists"
+fi
+
 # deadline
-list=~/todo-lists/deadline
-touch "$list"
-today=$(date -I)
-cat "$list"|sort -g|while read line; do
-    date=$(echo -n "$line"|cut -d' ' -f1)
-    if [ "$date" = "$today" ]; then
-        echo "DUE: $line"
-    else
-        later_date "$today" "$date"
-        if [ "$later" = "$today" ]; then
-            echo "OVERDUE: $line"
+list="$listdir"/deadline
+if [ -e "$list" ]; then
+    today=$(date -I)
+    cat "$list"|sort -g|while read line; do
+        date=$(echo -n "$line"|cut -d' ' -f1)
+        if [ "$date" = "$today" ]; then
+            echo "DUE: $line"
         else
-            echo "$line"
+            later_date "$today" "$date"
+            if [ "$later" = "$today" ]; then
+                echo "OVERDUE: $line"
+            else
+                echo "$line"
+            fi
         fi
-    fi
-done | head -3
+    done | head -3
+fi
 
 # within a time window
-list=~/todo-lists/timewindow
-touch "$list"
-echo
-(
-    grep '^day\s' "$list"  |sed 's/^day/Within a day:\t/'
-    grep '^week\s' "$list" |sed 's/^week/Within a week:\t/'
-    grep '^month\s' "$list"|sed 's/^month/Within a month:\t/'
-    grep '^year\s' "$list" |sed 's/^year/Within a year:\t/'
-) | head -3
+list="$listdir"/timewindow
+if [ -e "$list" ]; then
+    echo
+    (
+        grep '^day\s' "$list"  |sed 's/^day/Within a day:\t/'
+        grep '^week\s' "$list" |sed 's/^week/Within a week:\t/'
+        grep '^month\s' "$list"|sed 's/^month/Within a month:\t/'
+        grep '^year\s' "$list" |sed 's/^year/Within a year:\t/'
+    ) | head -3
+fi
 
 # some day
-list=~/todo-lists/someday
-touch "$list"
-echo
-echo "Some day:"
-shuf -n3 "$list"|sed 's/^/- /'
+list="$listdir"/someday
+if [ -e "$list" ]; then
+    echo
+    echo "Some day:"
+    shuf -n3 "$list"|sed 's/^/- /'
+fi
 
 # optional
-list=~/todo-lists/optional
-touch "$list"
-echo
-echo "Optional:"
-shuf -n3 "$list"|sed 's/^/- /'
+list="$listdir"/optional
+if [ -e "$list" ]; then
+    echo
+    echo "Optional:"
+    shuf -n3 "$list"|sed 's/^/- /'
+fi
