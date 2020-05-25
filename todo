@@ -1,0 +1,57 @@
+#!/usr/bin/bash
+
+function later_date {
+    later="$1" # default return value if both are equal
+    year_1=$(echo -n "$1"|cut -d'-' -f1)
+    year_2=$(echo -n "$2"|cut -d'-' -f1)
+    if [ "$year_1" -gt "$year_2" ]; then later="$1"; return; fi
+    if [ "$year_2" -gt "$year_1" ]; then later="$2"; return; fi
+    month_1=$(echo -n "$1"|cut -d'-' -f2)
+    month_2=$(echo -n "$2"|cut -d'-' -f2)
+    if [ "$month_1" -gt "$month_2" ]; then later="$1"; return; fi
+    if [ "$month_2" -gt "$month_1" ]; then later="$2"; return; fi
+    day_1=$(echo -n "$1"|cut -d'-' -f3)
+    day_2=$(echo -n "$2"|cut -d'-' -f3)
+    if [ "$day_1" -gt "$day_2" ]; then later="$1"; return; fi
+    if [ "$day_2" -gt "$day_1" ]; then later="$2"; return; fi
+}
+
+
+scriptdir=$(dirname "$0")
+
+# deadline
+list="$scriptdir/todo-lists/deadline"
+touch "$list"
+today=$(date -I)
+cat "$list"|sort -g|while read line; do
+    date=$(echo -n "$line"|cut -d' ' -f1)
+    later_date "$today" "$date"
+    if [ "$later" == "$date" ]; then
+        echo "$line"
+    fi
+done | head -3
+
+# within a time window
+list="$scriptdir/todo-lists/timewindow"
+touch "$list"
+echo
+(
+    grep '^day\s' "$list"  |sed 's/^day/Within a day:\t/'
+    grep '^week\s' "$list" |sed 's/^week/Within a week:\t/'
+    grep '^month\s' "$list"|sed 's/^month/Within a month:\t/'
+    grep '^year\s' "$list" |sed 's/^year/Within a year:\t/'
+) | head -3
+
+# some day
+list="$scriptdir/todo-lists/someday"
+touch "$list"
+echo
+echo "Some day:"
+head -3 "$list"|sed 's/^/- /'
+
+# optional
+list="$scriptdir/todo-lists/optional"
+touch "$list"
+echo
+echo "Optional:"
+head -3 optional|sed 's/^/- /'
